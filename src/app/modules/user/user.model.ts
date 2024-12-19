@@ -7,15 +7,15 @@ const UserSchema = new Schema<TUser>(
   {
     name: {
       type: String,
-      required: true,
+      required: [true, "Name is required"],
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "Email is required"],
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "Password is required"],
     },
     role: {
       type: String,
@@ -37,4 +37,4 @@ UserSchema.pre("save", async function () {
   );
 });
 
-export const User = model<TUser>("User", UserSchema);
+export const User = model<TUser>("user", UserSchema);
