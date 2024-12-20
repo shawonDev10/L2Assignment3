@@ -41,4 +41,4 @@ UserSchema.statics.matchedPass = async function (clientPassText, DBhashPass) {
   return await bcrypt.compare(clientPassText, DBhashPass);
 };
 
-export const User = model<TUser, UserModel>("user", UserSchema);
+export const User = model<TUser, UserModel>("User", UserSchema);
