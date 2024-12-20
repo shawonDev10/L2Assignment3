@@ -24,7 +24,7 @@ const auth = (...rolesRequired: TRole[]) => {
 
     if (!user) {
       throw new customError(404, "User not found !");
-    } else if (user.isBlocked === true) {
+    } else if (user?.isBlocked === true) {
       throw new customError(403, "This user is blocked");
     } else if (rolesRequired && !rolesRequired.includes(user.role)) {
       throw new customError(401, "You are not authorized !");
