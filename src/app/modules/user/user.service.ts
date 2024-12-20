@@ -3,14 +3,13 @@ import { TUser } from "./user.interface";
 import { User } from "./user.model";
 
 const createUserIntoDB = async (payload: TUser) => {
-  // check the user is already exist or not
   const isUserExist = await User.findOne(
     { email: payload.email },
     { _id: 0, email: 1 },
   );
 
   if (isUserExist) {
-    throw new customError(400, "User is already exist");
+    throw new customError(400, "This email is already in use !");
   }
 
   const result = await User.create(payload);

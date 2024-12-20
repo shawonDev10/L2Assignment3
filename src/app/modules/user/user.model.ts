@@ -1,9 +1,9 @@
 import { model, Schema } from "mongoose";
-import { TUser } from "./user.interface";
+import { TUser, UserModel } from "./user.interface";
 import bcrypt from "bcrypt";
 import config from "../../config";
 
-const UserSchema = new Schema<TUser>(
+const UserSchema = new Schema<TUser, UserModel>(
   {
     name: {
       type: String,
@@ -37,4 +37,8 @@ UserSchema.pre("save", async function () {
   );
 });
 
-export const User = model<TUser>("user", UserSchema);
+UserSchema.statics.matchedPass = async function (clientPassText, DBhashPass) {
+  return await bcrypt.compare(clientPassText, DBhashPass);
+};
+
+export const User = model<TUser, UserModel>("user", UserSchema);

@@ -8,4 +8,4 @@ const route = express.Router();
 route.post("/", validateRequest(UserValidationSchema), userControllers.createUser)
 
 
-export const userRoutes = route;
+export const registerRoutes = route;
