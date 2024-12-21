@@ -1,4 +1,5 @@
-import QueryBuilder from "../../builder/queryBulder";
+import QueryBuilder from "../../builder/QueryBuilder";
+import customError from "../../errors/customError";
 import { TBlog } from "./blog.interface";
 import { Blog } from "./blog.model";
 import { Types } from "mongoose";
@@ -24,13 +25,21 @@ const getAllBlogFromDB = async (query: Record<string, unknown>) => {
       select: "-password",
     }),
     query,
-  ).search(blogSearchableField).sort().filter()
+  )
+    .search(blogSearchableField)
+    .sort()
+    .filter();
 
   const result = await blogQuery.modelQuery;
   return result;
 };
 
 const updateBlogIntoDB = async (_id: string, payload: Partial<TBlog>) => {
+  const isBlogExist = await Blog.findById(_id);
+  if (!isBlogExist) {
+    throw new customError(404, "Blog not found");
+  }
+
   const result = await Blog.findOneAndUpdate({ _id }, payload, {
     new: true,
     runValidators: true,
@@ -43,6 +52,11 @@ const updateBlogIntoDB = async (_id: string, payload: Partial<TBlog>) => {
 };
 
 const deleteBlogFromDB = async (_id: string) => {
+  const isBlogExist = await Blog.findById(_id);
+  if (!isBlogExist) {
+    throw new customError(404, "Blog not found");
+  }
+
   const result = await Blog.deleteOne({ _id });
   return result;
 };

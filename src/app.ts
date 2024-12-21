@@ -18,9 +18,9 @@ app.get("/", (req, res) => {
 });
 
 // Global Error Handling Middleware
-app.use(globalErrorHandler)
+app.use(globalErrorHandler);
 
 // API not found
-app.use(notFound)
+app.use(notFound);
 
 export default app;
