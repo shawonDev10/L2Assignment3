@@ -1,3 +1,4 @@
+import QueryBuilder from "../../builder/queryBulder";
 import { TBlog } from "./blog.interface";
 import { Blog } from "./blog.model";
 import { Types } from "mongoose";
@@ -14,11 +15,18 @@ const createBlogIntoDB = async (payload: TBlog, _id: Types.ObjectId) => {
   return result;
 };
 
-const getAllBlogFromDB = async () => {
-  const result = await Blog.find().populate({
-    path: "author",
-    select: "-password",
-  });
+const getAllBlogFromDB = async (query: Record<string, unknown>) => {
+  const blogSearchableField = ["title", "content"];
+
+  const blogQuery = new QueryBuilder(
+    Blog.find().populate({
+      path: "author",
+      select: "-password",
+    }),
+    query,
+  ).search(blogSearchableField).sort().filter()
+
+  const result = await blogQuery.modelQuery;
   return result;
 };
 
