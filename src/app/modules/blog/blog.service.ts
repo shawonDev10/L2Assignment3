@@ -34,10 +34,19 @@ const getAllBlogFromDB = async (query: Record<string, unknown>) => {
   return result;
 };
 
-const updateBlogIntoDB = async (_id: string, payload: Partial<TBlog>) => {
+const updateBlogIntoDB = async (
+  _id: string,
+  payload: Partial<TBlog>,
+  userId: Types.ObjectId,
+) => {
   const isBlogExist = await Blog.findById(_id);
   if (!isBlogExist) {
     throw new customError(404, "Blog not found");
+  } else if (isBlogExist.author.toString() !== userId.toString()) {
+    throw new customError(
+      403,
+      "You do not have permission to update this data",
+    );
   }
 
   const result = await Blog.findOneAndUpdate({ _id }, payload, {
@@ -51,10 +60,15 @@ const updateBlogIntoDB = async (_id: string, payload: Partial<TBlog>) => {
   return result;
 };
 
-const deleteBlogFromDB = async (_id: string) => {
+const deleteBlogFromDB = async (_id: string, userId: Types.ObjectId) => {
   const isBlogExist = await Blog.findById(_id);
   if (!isBlogExist) {
     throw new customError(404, "Blog not found");
+  } else if (isBlogExist.author.toString() !== userId.toString()) {
+    throw new customError(
+      403,
+      "You do not have permission to delete this data",
+    );
   }
 
   const result = await Blog.deleteOne({ _id });

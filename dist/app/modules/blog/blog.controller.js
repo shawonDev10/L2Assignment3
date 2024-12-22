@@ -36,18 +36,20 @@ const getAllBlog = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     });
 }));
 const updateBlog = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.user;
     const { id } = req.params;
-    const result = yield blog_service_1.blogServices.updateBlogIntoDB(id, req.body);
+    const result = yield blog_service_1.blogServices.updateBlogIntoDB(id, req.body, userId);
     (0, sandResponse_1.default)(res, {
         statusCode: 200,
         success: true,
-        message: "Blog created successfully",
+        message: "Blog updated  successfully",
         data: result,
     });
 }));
 const deleteBlog = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.user;
     const { id } = req.params;
-    yield blog_service_1.blogServices.deleteBlogFromDB(id);
+    yield blog_service_1.blogServices.deleteBlogFromDB(id, userId);
     res.status(200).json({
         success: true,
         message: "Blog deleted successfully",

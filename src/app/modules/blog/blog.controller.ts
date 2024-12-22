@@ -28,20 +28,22 @@ const getAllBlog = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateBlog = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user as Types.ObjectId;
   const { id } = req.params;
-  const result = await blogServices.updateBlogIntoDB(id, req.body);
+  const result = await blogServices.updateBlogIntoDB(id, req.body, userId);
 
   sandResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Blog created successfully",
+    message: "Blog updated  successfully",
     data: result,
   });
 });
 
 const deleteBlog = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user as Types.ObjectId;
   const { id } = req.params;
-  await blogServices.deleteBlogFromDB(id);
+  await blogServices.deleteBlogFromDB(id, userId);
 
   res.status(200).json({
     success: true,

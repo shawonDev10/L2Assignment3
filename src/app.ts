@@ -14,7 +14,7 @@ app.use(cors());
 app.use("/api", router);
 
 app.get("/", (req, res) => {
-  res.send("L2Assignment3");
+  res.send("FutureStack Blog");
 });
 
 // Global Error Handling Middleware

@@ -33,7 +33,11 @@ class QueryBuilder<T> {
 
   filter() {
     const filterBy = this?.query?.filter;
-    this.modelQuery = this.modelQuery.find({ author: filterBy });
+    if (filterBy) {
+      this.modelQuery = this.modelQuery.find({ author: filterBy });
+    } else {
+      this.modelQuery = this.modelQuery.find({});
+    }
     return this;
   }
 }

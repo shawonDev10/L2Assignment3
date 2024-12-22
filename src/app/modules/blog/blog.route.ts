@@ -12,7 +12,7 @@ const route = express.Router();
 
 route.post(
   "/",
-  auth(ROLE.admin, ROLE.user),
+  auth(ROLE.user),
   validateRequest(BlogValidateSchema),
   blogControllers.createBlog,
 );
@@ -26,6 +26,6 @@ route.patch(
   blogControllers.updateBlog,
 );
 
-route.delete("/:id", auth(ROLE.admin, ROLE.user), blogControllers.deleteBlog);
+route.delete("/:id", auth(ROLE.user), blogControllers.deleteBlog);
 
 export const blogRoutes = route;

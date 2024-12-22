@@ -28,7 +28,12 @@ class QueryBuilder {
     filter() {
         var _a;
         const filterBy = (_a = this === null || this === void 0 ? void 0 : this.query) === null || _a === void 0 ? void 0 : _a.filter;
-        this.modelQuery = this.modelQuery.find({ author: filterBy });
+        if (filterBy) {
+            this.modelQuery = this.modelQuery.find({ author: filterBy });
+        }
+        else {
+            this.modelQuery = this.modelQuery.find({});
+        }
         return this;
     }
 }

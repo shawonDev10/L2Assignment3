@@ -17,9 +17,9 @@ const customError_1 = __importDefault(require("../../errors/customError"));
 const blog_model_1 = require("../blog/blog.model");
 const user_model_1 = require("../user/user.model");
 const blockUserFromDB = (_id) => __awaiter(void 0, void 0, void 0, function* () {
-    const isUserExist = yield blog_model_1.Blog.findById(_id);
+    const isUserExist = yield user_model_1.User.findById(_id);
     if (!isUserExist) {
-        throw new customError_1.default(404, "User not found");
+        throw new customError_1.default(404, "User not found from service");
     }
     const result = yield user_model_1.User.findOneAndUpdate({ _id }, { isBlocked: true });
     return result;

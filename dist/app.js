@@ -15,7 +15,7 @@ app.use((0, cors_1.default)());
 // Applications Routes
 app.use("/api", routes_1.default);
 app.get("/", (req, res) => {
-    res.send("L2Assignment3");
+    res.send("FutureStack Blog");
 });
 // Global Error Handling Middleware
 app.use(globalErrorHandler_1.default);

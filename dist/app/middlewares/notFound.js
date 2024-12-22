@@ -4,7 +4,7 @@ const notFound = (req, res, next) => {
     res.status(404).json({
         success: false,
         message: "API not found",
-        "statusCode": 404,
+        statusCode: 404,
         error: "",
     });
 };

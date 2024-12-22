@@ -37,10 +37,13 @@ const getAllBlogFromDB = (query) => __awaiter(void 0, void 0, void 0, function* 
     const result = yield blogQuery.modelQuery;
     return result;
 });
-const updateBlogIntoDB = (_id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const updateBlogIntoDB = (_id, payload, userId) => __awaiter(void 0, void 0, void 0, function* () {
     const isBlogExist = yield blog_model_1.Blog.findById(_id);
     if (!isBlogExist) {
         throw new customError_1.default(404, "Blog not found");
+    }
+    else if (isBlogExist.author.toString() !== userId.toString()) {
+        throw new customError_1.default(403, "You do not have permission to update this data");
     }
     const result = yield blog_model_1.Blog.findOneAndUpdate({ _id }, payload, {
         new: true,
@@ -51,10 +54,13 @@ const updateBlogIntoDB = (_id, payload) => __awaiter(void 0, void 0, void 0, fun
     });
     return result;
 });
-const deleteBlogFromDB = (_id) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteBlogFromDB = (_id, userId) => __awaiter(void 0, void 0, void 0, function* () {
     const isBlogExist = yield blog_model_1.Blog.findById(_id);
     if (!isBlogExist) {
         throw new customError_1.default(404, "Blog not found");
+    }
+    else if (isBlogExist.author.toString() !== userId.toString()) {
+        throw new customError_1.default(403, "You do not have permission to delete this data");
     }
     const result = yield blog_model_1.Blog.deleteOne({ _id });
     return result;
